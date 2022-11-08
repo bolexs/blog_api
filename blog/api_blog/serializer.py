@@ -20,6 +20,6 @@ class UpdatePostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['title', 'updated_at']
+        fields = ['title','author_id', 'updated_at']
 
 

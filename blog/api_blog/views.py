@@ -5,17 +5,18 @@ from rest_framework import status
 from .models import *
 from .serializer import PostSerializer, UpdatePostSerializer
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 class PostViewSet(viewsets.ModelViewSet):
     serializer_class= PostSerializer
-
+    
     def create(self, request, *args, **kwargs):
-        serializer = PostSerializer
-        user = request.user
+        serializer = PostSerializer(data=request.data)
+        #user = request.user
 
         if serializer.is_valid():
-            post = serializer.create(serializer.validated_data, author_id=user)
+            post = serializer.create(serializer.validated_data)
             read_serializer = self.get_serializer(post)
             return Response(
                 read_serializer.data, status=status.HTTP_201_CREATED
